@@ -39,54 +39,25 @@
 		{% endif %}
 		
 		{% if var1 == 2 %}
-		<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-		
-		<div class="carousel-inner">
-		{% for i in all_list %}
-		<div class="carousel-item active">
-		  <img src="/img/{{ path }}/{{ i }}" class="d-block w-50 h-50" alt="{{ i }}">
-		</div>
-		{% endfor %}		
-		</div>
-		
-		
-		<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Next</span>
-		</button>
-		
+		<div class="container-fluid">
+		<img src="/static/file/role.jpg" id="img1" onclick="f();" class="d-block w-70 h-70" alt="End">
 		</div>
 		{% endif %}   
 
 <script src="{{url_for('static', filename='file/bootstrap.bundle.min.js')}}" ></script>
 <script  type="text/javascript" >
 
-function ax(){
+var i=0;
 
-    //e.preventDefault();
-    var role = document.getElementById("select_role");
-    let request = new XMLHttpRequest();
-    request.open("get",'/uploader', true);
-    //request.setRequestHeader("Content-Type", "multipart/form-data");
-
-    
-
-    request.addEventListener('load', function(e) {
-	    window.location.reload();
-    });
-    request.send(fd);
-}
-
-function viewItem(res,val) {
-const list = document.querySelectorAll(res);
-for (const item of list) {
-  item.hidden = !val
-}
-}
-
-function openpage(){
-page = document.getElementById('select_role').value;
-window.open('/'+ page, '_self');
+function f(){
+lst1 = {{ all_list | tojson }}
+len = {{ length }}
+imgobj = document.getElementById('img1');
+if (i%2==0)
+	imgobj.src = "/img/{{ path }}/" + lst1[i/2];
+else
+	imgobj.src = "/static/file/role.jpg";
+i += 1;
 }
 </script>
 <!--</div>-->
