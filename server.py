@@ -62,9 +62,17 @@ def run_game(path,sit=None):
     
 
 @app.route('/img/<path>/<filepath>')
-def uploader(path,filepath):
+def sendf(path,filepath):
     file = f"{abs_path}/{path}/{filepath}"
     return send_file(file)
+
+@app.route('/uploader' , methods = ['GET', 'POST'])
+def uploader():
+    if request.method == 'POST':
+        files = request.files.getlist("file")
+        for f in files:
+            f.save(f'{abs_path}/custom/{f.filename}')
+    return redirect('/')
 
 app.run(host="0.0.0.0")
 

@@ -33,7 +33,18 @@
             <input class="btn btn-success" type = "button" onclick="window.open('/'+ document.getElementById('select_role').value, '_self');" value="Send" />
         </td>
 		</form>
-		</tr>	
+		</tr>
+		
+		<tr>	
+        <form action = "/uploader" method = "POST" enctype = "multipart/form-data" >
+        <td>
+            <input class="form-control"  type="file" name="file" id="file" multiple />
+        </td>
+        <td>
+            <input class="btn btn-success" type="submit" value="Upload Custom Role" />
+        </td>
+		</form>
+		</tr>
 		</tbody>
 		</table>
 		{% endif %}
