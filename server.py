@@ -29,7 +29,8 @@ def run_game(path,sit=None):
     lst=[l.split("\\")[-1] for l in lst]
     random.shuffle(lst)
     
-     		
+    maplst = ['1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l']
+    
     file=open(f"{abs_path}/role.txt","r",encoding="utf-8")
     lst2=file.readlines()
     file.close()
@@ -46,16 +47,16 @@ def run_game(path,sit=None):
     if sit:
         e=sit                       
         for i,v in enumerate(e):
-                if int(e[i]):
-                    if len(lst) >= int(e[i]):
-                        ix1=lst.index(lst3[i])
-                        iv1=lst[int(e[i])-1]
-                        lst[int(e[i])-1]=lst3[i]
-                        lst[ix1]=iv1   
+            ixref = maplst.index(e[i])+1
+            if ixref:
+                if len(lst) >= ixref:
+                    ix1=lst.index(lst3[i])
+                    iv1=lst[ixref-1]
+                    lst[ixref-1]=lst3[i]
+                    lst[ix1]=iv1   
     
     length=len(lst)
 
-    #return f"senario is {path} <br><br>  lst :  {lst} <br><br> lst2 :  {lst2} <br><br> lst3 :  {lst3} <br><br> {length} "
     return render_template('index.html', path = path , abs_path = abs_path , all_list = lst , length = length , var1 = 2 )
         
     
