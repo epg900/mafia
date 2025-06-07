@@ -2,7 +2,7 @@ from flask import Flask, send_file, redirect,  render_template, request
 import os, glob, random
 
 root_path = os.getcwd()
-abs_path =  '/storage/emulated/0/Download' # 'C:/Users/e.pishvaz/Desktop/epfs2-main/file' , '/home/user/Desktop/mafia/file'
+abs_path = os.path.join(root_path,'file') # '/storage/emulated/0/Download' # 'C:/Users/e.pishvaz/Desktop/epfs2-main/file' , '/home/user/Desktop/mafia/file'
 lst = []
 files = os.listdir(abs_path)
 for f in files:
