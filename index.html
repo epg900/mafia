@@ -51,16 +51,22 @@ var i=0;
 var lst1 = {{ all_list | tojson }}
 var len = {{ length }}
 
+//var lst2 = {{ lst2 | tojson }};
+//var lst3 = {{ lst3 | tojson }};
+
 function f(){
 imgobj = document.getElementById('img1');
-if (i>len*2)
+if (i==len*2)
 	window.open('/','_self');
 if (i%2==0)
 	imgobj.src = "/img/{{ path }}/" + lst1[i/2];
 else
-	imgobj.src = "/static/file/role.jpg";
-if (i==len*2)
-	imgobj.src = "/static/file/end.jpg";
+{
+	if (i==(len*2-1))
+		imgobj.src = "/static/file/end.jpg";
+	else
+		imgobj.src = "/static/file/role.jpg";
+}
 i += 1;
 }
 </script>
