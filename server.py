@@ -56,7 +56,7 @@ def run_game(path,sit=None):
     length=len(lst)
 
     #return f"senario is {path} <br><br>  lst :  {lst} <br><br> lst2 :  {lst2} <br><br> lst3 :  {lst3} <br><br> {length} "
-    return render_template('index.html', path = path , abs_path = abs_path , all_list = lst , length = length , var1 = 2 , lst2 = lst2 , lst3 = lst3)
+    return render_template('index.html', path = path , abs_path = abs_path , all_list = lst , length = length , var1 = 2 )
         
     
 
