@@ -3,17 +3,23 @@ import os, glob, random
 
 root_path = os.getcwd()
 abs_path = os.path.join(root_path,'file') # '/storage/emulated/0/Download' # 'C:/Users/e/Desktop/epfs2-main/file' , '/home/user/Desktop/mafia/file'
-lst = []
-files = os.listdir(abs_path)
-for f in files:
-    if os.path.isdir(os.path.join(abs_path,f)):
-        lst.append(f)        
+
         
 app = Flask(__name__, static_url_path='/static', static_folder = root_path, template_folder = root_path)
 
 @app.route('/')
-def index():    
-    return render_template('index.html', path = abs_path , all_list = lst , var1 = 1  )
+def index():
+    lst = []
+    files = os.listdir(abs_path)
+    for f in files:
+        if os.path.isdir(os.path.join(abs_path,f)):
+            lst.append(f)        
+    lst5 =glob.glob(f"{abs_path}/custom/*.jpg")
+    lst5.sort()
+    lst5=[l.split("/")[-1] for l in lst5]
+    lst5=[l.split("\\")[-1] for l in lst5]
+    lst5=[l.split(".")[0] for l in lst5]
+    return render_template('index.html', path = abs_path , all_list = lst , custom_list = lst5 , var1 = 1  )
     
 @app.route('/<path>')
 @app.route('/<path>/<sit>')
