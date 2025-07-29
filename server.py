@@ -1,38 +1,44 @@
 from flask import Flask, send_file, redirect,  render_template, request
-import os, glob, random
+import os, glob, random, json
 
 root_path = os.getcwd()
 abs_path = os.path.join(root_path,'file') # '/storage/emulated/0/Download' # 'C:/Users/e/Desktop/epfs2-main/file' , '/home/user/Desktop/mafia/file'
 
+
+def readjson(file):
+    with open(file, 'r') as file:
+        jsondict = json.load(file)
+
+    return jsondict
+
+allsenario = readjson("file/allsenario.txt")    
         
 app = Flask(__name__, static_url_path='/static', static_folder = root_path, template_folder = root_path)
 
 @app.route('/')
 def index():
     lst = []
-    files = os.listdir(abs_path)
-    for f in files:
-        if os.path.isdir(os.path.join(abs_path,f)):
-            lst.append(f)        
-    lst5 =glob.glob(f"{abs_path}/custom/*.jpg")
-    lst5.sort()
-    lst5=[l.split("/")[-1] for l in lst5]
-    lst5=[l.split("\\")[-1] for l in lst5]
-    lst5=[l.split(".")[0] for l in lst5]
-    return render_template('index.html', path = abs_path , all_list = lst , custom_list = lst5 , var1 = 1  )
-    
-@app.route('/<path>')
-@app.route('/<path>/<sit>')
-def run_game(path,sit=None):
-    if not os.path.exists(f'{abs_path}/{path}'):
-        return redirect('/')
-    if not os.path.isdir(f'{abs_path}/{path}'):
-        return redirect('/')
+    for i in allsenario:
+        lst.append(allsenario[i]['name'])
 
-    lst =glob.glob(f"{abs_path}/{path}/*.jpg")
-    lst.sort()
-    lst=[l.split("/")[-1] for l in lst]
-    lst=[l.split("\\")[-1] for l in lst]
+    
+    return render_template('index.html', path = abs_path , all_list = lst , var1 = 1  )
+
+@app.route('/img/<rolename>')
+def sendf(rolename):
+    file = f"{abs_path}/allrole/{rolename}.jpg"
+    return send_file(file)
+   
+@app.route('/<sen>')
+@app.route('/<sen>/<sit>')
+def run_game(sen,sit=None):    
+    lst = []
+    
+    for i in allsenario:
+        if allsenario[i]['name'] == sen:
+            lst = allsenario[i]['roles']            
+            
+    lst.sort()    
     random.shuffle(lst)
     
     maplst = ['1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l']
@@ -63,14 +69,11 @@ def run_game(path,sit=None):
     
     length=len(lst)
 
-    return render_template('index.html', path = path , abs_path = abs_path , all_list = lst , length = length , var1 = 2 )
+    return render_template('index.html', abs_path = abs_path , all_list = lst , length = length , var1 = 2 )
         
     
 
-@app.route('/img/<path>/<filepath>')
-def sendf(path,filepath):
-    file = f"{abs_path}/{path}/{filepath}"
-    return send_file(file)
+
 
 @app.route('/uploader' , methods = ['GET', 'POST'])
 def uploader():

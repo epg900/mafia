@@ -1,0 +1,14 @@
+{
+"1": {
+"name" : "pedarkhande",
+"roles" : ["doctor","leon","constantine","godfather","goodman","kane","matador","nostradamus","shahr1","shahr2","shahr3"]
+},
+"2": {
+"name" : "zodiac",
+"roles" : ["pezeshk","herfeei","bombsaz","alcapon","ocean","tofangdar","shobadebaz","mohafez","zodiac","shahr1","shahr2","karagah"]
+},
+"3": {
+"name" : "capo",
+"roles" : ["ahangar","don","attar","vares","jadoogar","jalad","kadkhoda","karagah","khabarchin","shahr1","shahr2","maznoon"]
+}
+}
