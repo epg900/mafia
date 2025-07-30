@@ -6,9 +6,9 @@ abs_path = os.path.join(root_path,'file') # '/storage/emulated/0/Download' # 'C:
 
 
 def readjson(file):
-    with open(file, 'r') as file:
-        jsondict = json.load(file)
-
+    f = open(file, 'r', encoding='utf-8')
+    jsondict = json.load(f)
+    f.close()
     return jsondict
 
 allsenario = readjson("file/allsenario.txt")    
@@ -18,8 +18,8 @@ app = Flask(__name__, static_url_path='/static', static_folder = root_path, temp
 @app.route('/')
 def index():
     lst = []
-    for i in allsenario:
-        lst.append(allsenario[i]['name'])
+    for i in allsenario['a']:
+        lst.append(allsenario['a'][i]['name'])
 
     
     return render_template('index.html', path = abs_path , all_list = lst , var1 = 1  )
@@ -34,21 +34,16 @@ def sendf(rolename):
 def run_game(sen,sit=None):    
     lst = []
     
-    for i in allsenario:
-        if allsenario[i]['name'] == sen:
-            lst = allsenario[i]['roles']            
+    for i in allsenario['a']:
+        if allsenario['a'][i]['name'] == sen:
+            lst = allsenario['a'][i]['roles']            
             
     lst.sort()    
     random.shuffle(lst)
     
     maplst = ['1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l']
     
-    file=open(f"{abs_path}/role.txt","r",encoding="utf-8")
-    lst2=file.readlines()
-    file.close()
-    lst2=[l.strip() for l in lst2]
-    lst2=[l.split("\n")[0] for l in lst2]
-     		
+    lst2 = allsenario['b']
     
     lst3=[]
     for l in lst2:
@@ -69,11 +64,31 @@ def run_game(sen,sit=None):
     
     length=len(lst)
 
-    return render_template('index.html', abs_path = abs_path , all_list = lst , length = length , var1 = 2 )
-        
+    return render_template('index.html', abs_path = abs_path , all_list = lst , length = length , var1 = 2 )       
     
 
+@app.route('/custom')
+def custom():
+    all_dict = {}    
+    for i in allsenario['c']:
+        all_dict[i['role']] = i['name']
+    length = 36
+    return render_template('index.html', abs_path = abs_path , all_list = all_dict , length = length , var1 = 3 ) 
 
+@app.route('/makecustom', methods = ['GET', 'POST'])
+def makecustom():
+    all_list = []
+    if request.method == 'POST':
+        all_list = request.form.getlist('roles')
+
+    all_dict = { "name" : request.form.get('senname') , "roles" : all_list }
+    length = len(allsenario['a'])
+    allsenario['a'][f"{length+1}"] = all_dict
+    f = open('file/allsenario.txt', 'w', encoding='utf-8')
+    json.dump(allsenario,f,indent=4)
+    f.close()
+    
+    return redirect('/')
 
 @app.route('/uploader' , methods = ['GET', 'POST'])
 def uploader():

@@ -27,7 +27,8 @@
 			
 			<form action = "" method = "POST" enctype = "multipart/form-data" >
 			<div class="form-group d-flex justify-content-center mb-4">
-			<select id="select_role" class="form-select" aria-label="Default select example">
+			<select id="select_role" class="form-select " aria-label="Default select example" >
+			
 			<option selected>select senario</option>			
 			{% for i in all_list %}
 				<option value="{{ i }}">{{ i }}</option>
@@ -35,7 +36,58 @@
 			</select>
 			</div>        
 			<div class="form-group d-flex justify-content-center mb-4">
-				<input class="btn btn-success" type = "button" onclick="window.open('/'+ document.getElementById('select_role').value, '_self');" value="Send" />
+				<input class="btn btn-success" type = "button" onclick="window.open('/'+ document.getElementById('select_role').value, '_self');" value="Select Role" />
+				<input class="btn btn-primary" type = "button" onclick="window.open('/custom', '_self');" value="Custom Senario" />
+			</div>
+			</form>
+			
+		  </div>
+		</div>		
+		
+				
+		
+		{% endif %}		
+		
+		{% if var1 == 2 %}
+		<div class="container-fluid">
+		<img src="/static/file/role.jpg" id="img1" onclick="f();" class="w-100 h-100" alt="">
+		</div>
+		{% endif %}   
+		
+		{% if var1 == 3 %}
+		
+
+		<div class="card">
+		  <div class="card-header">
+			Select Your custome role
+		  </div>
+		  <div class="card-body">
+			
+			<form action = "/makecustom" method = "POST" enctype = "multipart/form-data" >
+			<div class="form-group d-flex justify-content-center mb-4">
+			<input class="form-input" type="input" id="senname" name="senname" value="custom1" required >
+			</div>
+			<div class="form-group d-flex justify-content-center mb-4">
+			<label class="form-select-label" for="mySelect">Default Senario:</label>
+			<select id="mySelect" onchange="chk(this.value)">
+			  <option value="pedarkhande">پدر خوانده</option>
+			  <option value="zodiac">زودیاک</option>
+			  <option value="capo">کاپو</option>
+			</select>
+			</div>
+			<div class="form-group d-flex justify-content-center mb-4">
+			<div class="col-md-4">				
+			{% for key, value in all_list.items() %}
+				<div class="form-check">
+					<label class="form-check-label" for="{{ key }}">{{ value }}</label>
+					<input class="form-check-input" type="checkbox" id="{{ key }}" name="roles" value="{{ key }}">					
+				</div>				
+			{% endfor %}
+			</div>
+			</div>
+			   
+			<div class="form-group d-flex justify-content-center mb-4">
+				<input class="btn btn-success" type = "submit"  value="Create Custom" />
 			</div>
 			</form>
 			
@@ -46,11 +98,6 @@
 		
 		{% endif %}
 		
-		{% if var1 == 2 %}
-		<div class="container-fluid">
-		<img src="/static/file/role.jpg" id="img1" onclick="f();" class="w-100 h-100" alt="">
-		</div>
-		{% endif %}   
 
 <script src="{{url_for('static', filename='file/bootstrap.bundle.min.js')}}" ></script>
 <script  type="text/javascript" >
@@ -73,6 +120,66 @@ else
 		imgobj.src = "/static/file/role.jpg";
 }
 i += 1;
+}
+
+function chk(val) {
+  const checkboxes = document.getElementsByName('roles');
+  var lst1 = [
+                "doctor",
+                "leon",
+                "constantine",
+                "godfather",
+                "goodman",
+                "kane",
+                "matador",
+                "nostradamus",
+                "shahr1",
+                "shahr2",
+                "shahr3"
+            ];
+  var lst2= [
+                "pezeshk",
+                "herfeei",
+                "bombsaz",
+                "alcapon",
+                "ocean",
+                "tofangdar",
+                "shobadebaz",
+                "mohafez",
+                "zodiac",
+                "shahr1",
+                "shahr2",
+                "karagah"
+            ];
+  var lst3= [
+                "ahangar",
+                "don",
+                "attar",
+                "vares",
+                "jadoogar",
+                "jalad",
+                "kadkhoda",
+                "karagah",
+                "khabarchin",
+                "shahr1",
+                "shahr2",
+                "maznoon"
+            ];
+  var lstchk = [];
+  
+  if (val=="pedarkhande") 	lstchk = lst1;
+  if (val=="zodiac") 	lstchk = lst2;
+  if (val=="capo") 	lstchk = lst3;
+  
+  for (let i = 0; i < checkboxes.length; i++)     
+      checkboxes[i].checked = false;
+    
+  for (let i = 0; i < checkboxes.length; i++) {
+    if (lstchk.includes(checkboxes[i].value)) {
+      checkboxes[i].checked = true;
+    }
+  }
+  console.log("Selected values:", selectedValues);
 }
 </script>
 <!--</div>-->
