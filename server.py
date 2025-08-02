@@ -21,10 +21,13 @@ app = Flask(__name__, static_url_path='/static', static_folder = root_path, temp
 
 @app.route('/')
 def index():
+    if os.path.exists(f'{abs_path}/allsenario.txt'):
+        allsenario = readjson("file/allsenario.txt")
+    else:
+        allsenario = readjson("file/allsenario_base.txt")
     lst = []
     for i in allsenario['a']:
         lst.append(allsenario['a'][i]['name'])
-
     
     return render_template('index.html', path = abs_path , all_list = lst , var1 = 1  )
 
