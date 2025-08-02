@@ -11,7 +11,11 @@ def readjson(file):
     f.close()
     return jsondict
 
-allsenario = readjson("file/allsenario.txt")    
+allsenario = {}
+if os.path.exists(f'{abs_path}/allsenario.txt'):
+    allsenario = readjson("file/allsenario.txt")
+else:
+    allsenario = readjson("file/allsenario_base.txt")
         
 app = Flask(__name__, static_url_path='/static', static_folder = root_path, template_folder = root_path)
 
@@ -89,6 +93,12 @@ def makecustom():
     f.close()
     
     return redirect('/')
+
+@app.route('/delcustoms')
+def delcustoms():
+    os.remove('file/allsenario.txt')
+    return redirect('/') 
+
 
 @app.route('/uploader' , methods = ['GET', 'POST'])
 def uploader():
